@@ -34,7 +34,10 @@ const Gallery = () => {
           return a.title.localeCompare(b.title);
         case 'titleDesc':
           return b.title.localeCompare(a.title);
-        // Add more cases for other sorting options if needed
+        case 'createdAtAsc':
+          return new Date(a.created_at?.$date) - new Date(b.created_date?.$date);
+        case 'createdAtDesc':
+          return new Date(b.created_at?.$date) - new Date(a.created_at?.$date);
         default:
           return 0;
       }
@@ -52,12 +55,19 @@ const Gallery = () => {
         </select>
 
         {/* Sort options */}
-        <label>Sort by:</label>
-        <select value={sortBy} onChange={handleSortChange}>
-          <option value="">Default</option>
-          <option value="titleAsc">Title A-Z</option>
-          <option value="titleDesc">Title Z-A</option>
-        </select>
+        <label>Sort by Title:</label>
+      <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+        <option value="">None</option>
+        <option value="titleAsc">A-Z</option>
+        <option value="titleDesc">Z-A</option>
+      </select>
+
+      <label>Sort by Date:</label>
+      <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+        <option value="">None</option>
+        <option value="createdAtAsc">Oldest First</option>
+        <option value="createdAtDesc">Newest First</option>
+      </select>
       </div>
         <div className="gallery-container">
           {filteredImages.map(image => {
